@@ -13,6 +13,9 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Link from '@material-ui/core/Link';
+import Select from '@material-ui/core/Select';
+import MenuItem from '@material-ui/core/MenuItem';
+
 
 function Copyright() {
   return (
@@ -71,6 +74,8 @@ const cards = [
     title: "Title 2"
   },
 ];
+
+const categories = ["Aesthetic", "Style", "Rose", "Leafy", "Sketch", "Photograph", "Sarsparilla"];
 
 export default function Album() {
   const classes = useStyles();
@@ -142,6 +147,13 @@ export default function Album() {
                             onClick={() => getSimilar(card)}>
                       Similar
                     </Button>
+                    <Select
+                      onChange={(event) => getSimilarCategory(card, event.target.value)}
+                    >
+                      {categories.map((category) => (
+                        <MenuItem value={category}>{category}</MenuItem>
+                      ))}
+                    </Select>
                   </CardActions>
                 </Card>
               </Grid>
@@ -166,4 +178,8 @@ export default function Album() {
 
 function getSimilar(card) {
   console.log(card.title);
+}
+
+function getSimilarCategory(card, category) {
+  console.log(card.title + ": " + category);
 }
