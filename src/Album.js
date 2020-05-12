@@ -59,7 +59,18 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+const cards = [
+  {
+    number: 1,
+    image: "https://s3.eu-west-2.amazonaws.com/deepdiscovery.thumbnails/TNA3/2468.jpg",
+    title: "Title 1",
+  },
+  {
+    number: 2,
+    image: "https://s3.eu-west-2.amazonaws.com/deepdiscovery.thumbnails/TNA3/2577.jpg",
+    title: "Title 2"
+  },
+];
 
 export default function Album() {
   const classes = useStyles();
@@ -91,7 +102,7 @@ export default function Album() {
               <Grid container spacing={2} justify="center">
                 <Grid item>
                   <Button variant="contained" color="primary">
-                    Main call to action
+                    Find similar
                   </Button>
                 </Grid>
                 <Grid item>
@@ -107,27 +118,29 @@ export default function Album() {
           {/* End hero unit */}
           <Grid container spacing={4}>
             {cards.map((card) => (
-              <Grid item key={card} xs={12} sm={6} md={4}>
+              <Grid item key={card.number} xs={12} sm={6} md={4}>
                 <Card className={classes.card}>
                   <CardMedia
                     className={classes.cardMedia}
-                    image="https://source.unsplash.com/random"
-                    title="Image title"
+                    image={card.image}
+                    title={card.title}
                   />
                   <CardContent className={classes.cardContent}>
                     <Typography gutterBottom variant="h5" component="h2">
-                      Heading
+                      {card.title}
                     </Typography>
                     <Typography>
-                      This is a media card. You can use this section to describe the content.
+                      Some information that we might get from IIIF.
                     </Typography>
                   </CardContent>
                   <CardActions>
-                    <Button size="small" color="primary">
+                    <Button size="small" color="primary"
+                            onClick={() => window.location.href=card.image}>
                       View
                     </Button>
-                    <Button size="small" color="primary">
-                      Edit
+                    <Button size="small" color="primary"
+                            onClick={() => getSimilar(card)}>
+                      Similar
                     </Button>
                   </CardActions>
                 </Card>
@@ -149,4 +162,8 @@ export default function Album() {
       {/* End footer */}
     </React.Fragment>
   );
+}
+
+function getSimilar(card) {
+  console.log(card.title);
 }
