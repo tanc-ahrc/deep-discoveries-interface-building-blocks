@@ -66,8 +66,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const categories = ["Aesthetic", "Style", "Rose", "Leafy", "Sketch", "Photograph", "Sarsparilla"];
-
 export default function Album() {
   const classes = useStyles();
 
@@ -181,13 +179,6 @@ export default function Album() {
                             onClick={() => getSimilar(card)}>
                       Similar
                     </Button>
-                    <Select
-                      onChange={(event) => getSimilarCategory(card, event.target.value)}
-                    >
-                      {categories.map((category) => (
-                        <MenuItem value={category}>{category}</MenuItem>
-                      ))}
-                    </Select>
                   </CardActions>
                 </Card>
               </Grid>
@@ -209,10 +200,6 @@ export default function Album() {
     </React.Fragment>
   );
 
-}
-
-function getSimilarCategory(card, category) {
-  console.log(card.title + ": " + category);
 }
 
 function Form(props) {
