@@ -17,6 +17,7 @@ import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import {DropzoneArea} from 'material-ui-dropzone';
 import {Component} from 'react';
+import TextField from '@material-ui/core/TextField';
 
 
 function Copyright() {
@@ -79,6 +80,8 @@ const cards = [
 
 const categories = ["Aesthetic", "Style", "Rose", "Leafy", "Sketch", "Photograph", "Sarsparilla"];
 
+let engine = "Fused";
+let results = "30";
 export default function Album() {
   const classes = useStyles();
 
@@ -121,6 +124,11 @@ export default function Album() {
             </div>
             <DropzoneArea
               onChange={(f) => handleChange(f)}
+            />
+            <Form
+              results  = {results}
+              engine   = {engine}
+              onSubmit = {(e) => handleSubmit(e)}
             />
           </Container>
         </div>
@@ -185,8 +193,8 @@ function getSimilar(card) {
   let endpoint = 'https://blockchain.surrey.ac.uk/deepdiscovery/api/upload';
   let formData = new FormData();
   formData.append('file', card.image);
-  formData.append('searchengine', 'Fused');
-  formData.append('resultcount', '30');
+  formData.append('searchengine', engine);
+  formData.append('resultcount', results);
   let xhr = new XMLHttpRequest();
   xhr.open('POST', endpoint, false);
   xhr.send(formData);
@@ -203,4 +211,34 @@ function handleChange(files) {
     image: files[0],
     title: "User file"
   });
+}
+
+function handleSubmit(e) {
+  if(e.target.name == "results") results = e.target.value;
+  else if(e.target.name == "engine") engine = e.target.value;
+}
+
+function Form(props) {
+  return(
+    <div>
+      <TextField
+        label="Results"
+        name="results"
+        defaultValue={props.results}
+        onChange={e => props.onSubmit(e)}
+      />
+      <TextField
+        label="Engine"
+        name="engine"
+        defaultValue={props.engine}
+        onChange={e => props.onSubmit(e)}
+        select
+      >
+        <MenuItem value="Fused">Fused</MenuItem>
+        <MenuItem value="UNet">UNet</MenuItem>
+        <MenuItem value="RN101">RN101</MenuItem>
+        <MenuItem value="Sketch">Sketch</MenuItem>
+      </TextField>
+    </div>
+  );
 }
