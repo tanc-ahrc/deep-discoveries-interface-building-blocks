@@ -104,7 +104,7 @@ export default function Album() {
     let xhr = new XMLHttpRequest();
     xhr.open('POST', endpoint, false);
     xhr.send(formData);
-    console.info(xhr.responseText);
+    setCards(JSON.parse(xhr.responseText));
   }
 
   const handleChange = (files) => {
