@@ -69,7 +69,7 @@ const useStyles = makeStyles((theme) => ({
 const categories = ["Aesthetic", "Style", "Rose", "Leafy", "Sketch", "Photograph", "Sarsparilla"];
 
 let engine = "Fused";
-let results = "30";
+let resultCount = "30";
 export default function Album() {
   const classes = useStyles();
 
@@ -100,7 +100,7 @@ export default function Album() {
     let formData = new FormData();
     formData.append('file', card.url);
     formData.append('searchengine', engine);
-    formData.append('resultcount', results);
+    formData.append('resultcount', resultCount);
     let xhr = new XMLHttpRequest();
     xhr.open('POST', endpoint, false);
     xhr.send(formData);
@@ -141,7 +141,7 @@ export default function Album() {
                 align-items="space-between"
               >
                 <Form
-                  results  = {results}
+                  resultCount  = {resultCount}
                   engine   = {engine}
                   onSubmit = {(e) => handleSubmit(e)}
                 />
@@ -212,7 +212,7 @@ function getSimilarCategory(card, category) {
 }
 
 function handleSubmit(e) {
-  if(e.target.name == "results") results = e.target.value;
+  if(e.target.name == "resultCount") resultCount = e.target.value;
   else if(e.target.name == "engine") engine = e.target.value;
 }
 
@@ -222,8 +222,8 @@ function Form(props) {
       <Grid item>
         <TextField
           label="Results"
-          name="results"
-          defaultValue={props.results}
+          name="resultCount"
+          defaultValue={props.resultCount}
           onChange={e => props.onSubmit(e)}
         />
       </Grid>
