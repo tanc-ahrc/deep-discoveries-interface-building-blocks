@@ -204,7 +204,7 @@ function Form({resultCount, onResultCountUpdate, engine, onEngineUpdate}) {
         <TextField
           label="Results"
           name="resultCount"
-          defaultValue={resultCount}
+          value={resultCount}
           onChange={e => onResultCountUpdate(e.target.value)}
         />
       </Grid>
@@ -212,7 +212,7 @@ function Form({resultCount, onResultCountUpdate, engine, onEngineUpdate}) {
         <TextField
           label="Engine"
           name="engine"
-          defaultValue={engine}
+          value={engine}
           onChange={e => onEngineUpdate(e.target.value)}
           select
         >
