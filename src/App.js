@@ -1,6 +1,5 @@
 import React from 'react';
 import Album from './Album.js'
-import logo from './logo.svg';
 import './App.css';
 
 function App() {

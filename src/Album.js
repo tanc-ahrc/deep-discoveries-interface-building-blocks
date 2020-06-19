@@ -13,10 +13,8 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Link from '@material-ui/core/Link';
-import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import {DropzoneArea} from 'material-ui-dropzone';
-import {Component} from 'react';
 import TextField from '@material-ui/core/TextField';
 import {useState} from 'react';
 
