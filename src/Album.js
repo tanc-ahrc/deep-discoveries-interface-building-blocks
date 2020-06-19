@@ -91,7 +91,6 @@ export default function Album() {
   const [resultCount, setResultCount] = useState(30);
 
 
-
   const getSimilar = card => {
     let endpoint = 'https://blockchain.surrey.ac.uk/deepdiscovery/api/upload';
     let formData = new FormData();
