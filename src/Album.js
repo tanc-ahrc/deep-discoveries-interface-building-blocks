@@ -67,15 +67,20 @@ const useStyles = makeStyles((theme) => ({
 
 const cards = [
   {
-    number: 1,
-    image: "https://s3.eu-west-2.amazonaws.com/deepdiscovery.thumbnails/TNA3/2468.jpg",
-    title: "Title 1",
+    id: 2468,
+    collection: "TNA3",
+    url: "https://s3.eu-west-2.amazonaws.com/deepdiscovery.thumbnails/TNA3/2468.jpg",
   },
   {
-    number: 2,
-    image: "https://s3.eu-west-2.amazonaws.com/deepdiscovery.thumbnails/TNA3/2577.jpg",
-    title: "Title 2"
+    id: 2577,
+    collection: "TNA3",
+    url: "https://s3.eu-west-2.amazonaws.com/deepdiscovery.thumbnails/TNA3/2577.jpg"
   },
+  {
+    id: 2676,
+    collection: "TNA3",
+    url: "https://s3.eu-west-2.amazonaws.com/deepdiscovery.thumbnails/TNA3/2676.jpg"
+  }
 ];
 
 const categories = ["Aesthetic", "Style", "Rose", "Leafy", "Sketch", "Photograph", "Sarsparilla"];
@@ -122,11 +127,11 @@ export default function Album() {
           {/* End hero unit */}
           <Grid container spacing={4}>
             {cards.map((card) => (
-              <Grid item key={card.number} xs={12} sm={6} md={4}>
+              <Grid item key={card.id} xs={12} sm={6} md={4}>
                 <Card className={classes.card}>
                   <CardMedia
                     className={classes.cardMedia}
-                    image={card.image}
+                    image={card.url}
                     title={card.title}
                   />
                   <CardContent className={classes.cardContent}>
@@ -139,7 +144,7 @@ export default function Album() {
                   </CardContent>
                   <CardActions>
                     <Button size="small" color="primary"
-                            onClick={() => window.location.href=card.image}>
+                            onClick={() => window.location.href=card.url}>
                       View
                     </Button>
                     <Button size="small" color="primary"
@@ -178,7 +183,7 @@ export default function Album() {
 function getSimilar(card) {
   let endpoint = 'https://blockchain.surrey.ac.uk/deepdiscovery/api/upload';
   let formData = new FormData();
-  formData.append('file', card.image);
+  formData.append('file', card.url);
   formData.append('searchengine', engine);
   formData.append('resultcount', results);
   let xhr = new XMLHttpRequest();
@@ -193,8 +198,8 @@ function getSimilarCategory(card, category) {
 
 function handleChange(files) {
   if(files[0]) getSimilar({
-    number: 3,
-    image: files[0],
+    id: 0,
+    url: files[0],
     title: "User file"
   });
 }
