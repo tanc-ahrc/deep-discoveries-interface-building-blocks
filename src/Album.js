@@ -162,7 +162,7 @@ export default function Album() {
                       {card.title}
                     </Typography>
                     <Typography>
-                      Some information that we might get from IIIF.
+                      {card.collection}
                     </Typography>
                   </CardContent>
                   <CardActions>
