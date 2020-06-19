@@ -182,7 +182,15 @@ export default function Album() {
 }
 
 function getSimilar(card) {
-  console.log(card.title);
+  let endpoint = 'https://blockchain.surrey.ac.uk/deepdiscovery/api/upload';
+  let formData = new FormData();
+  formData.append('file', card.image);
+  formData.append('searchengine', 'Fused');
+  formData.append('resultcount', '30');
+  let xhr = new XMLHttpRequest();
+  xhr.open('POST', endpoint, false);
+  xhr.send(formData);
+  console.info(xhr.responseText);
 }
 
 function getSimilarCategory(card, category) {
