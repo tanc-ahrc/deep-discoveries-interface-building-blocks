@@ -104,22 +104,23 @@ export default function Album() {
       <main>
         {/* Hero unit */}
         <div className={classes.heroContent}>
-          <Grid container spacing="3" justify="space-between">
+          <Grid container spacing={3} justify="space-between">
             <Grid item xs>
               <DropzoneArea
                 onChange={(f) => handleChange(f)}
               />
             </Grid>
-            <Grid
-              item xs="3"
-              justify="space-between"
-              align-items="space-between"
-            >
-              <Form
-                results  = {results}
-                engine   = {engine}
-                onSubmit = {(e) => handleSubmit(e)}
-              />
+            <Grid item xs={3}>
+              <Grid
+                container direction="column"
+                align-items="space-between"
+              >
+                <Form
+                  results  = {results}
+                  engine   = {engine}
+                  onSubmit = {(e) => handleSubmit(e)}
+                />
+              </Grid>
             </Grid>
           </Grid>
         </div>
@@ -212,7 +213,7 @@ function handleSubmit(e) {
 function Form(props) {
   return(
     <div>
-      <Grid item direction="column">
+      <Grid item>
         <TextField
           label="Results"
           name="results"
@@ -220,7 +221,7 @@ function Form(props) {
           onChange={e => props.onSubmit(e)}
         />
       </Grid>
-      <Grid item direction="column">
+      <Grid item>
         <TextField
           label="Engine"
           name="engine"
