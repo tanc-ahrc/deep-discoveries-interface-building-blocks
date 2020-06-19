@@ -68,8 +68,6 @@ const useStyles = makeStyles((theme) => ({
 
 const categories = ["Aesthetic", "Style", "Rose", "Leafy", "Sketch", "Photograph", "Sarsparilla"];
 
-let engine = "Fused";
-let resultCount = "30";
 export default function Album() {
   const classes = useStyles();
 
@@ -91,7 +89,8 @@ export default function Album() {
       url: "https://s3.eu-west-2.amazonaws.com/deepdiscovery.thumbnails/TNA3/2676.jpg"
     }
   ]);
-
+  const [engine, setEngine] = useState("Fused");
+  const [resultCount, setResultCount] = useState(30);
 
 
 
@@ -113,6 +112,11 @@ export default function Album() {
       url: files[0],
       title: "User file"
     });
+  }
+
+  const handleSubmit = (e) => {
+    if(e.target.name == "resultCount") setResultCount(e.target.value);
+    else if(e.target.name == "engine") setEngine(e.target.value);
   }
 
   return (
@@ -209,11 +213,6 @@ export default function Album() {
 
 function getSimilarCategory(card, category) {
   console.log(card.title + ": " + category);
-}
-
-function handleSubmit(e) {
-  if(e.target.name == "resultCount") resultCount = e.target.value;
-  else if(e.target.name == "engine") engine = e.target.value;
 }
 
 function Form(props) {
