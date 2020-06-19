@@ -18,6 +18,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import {DropzoneArea} from 'material-ui-dropzone';
 import {Component} from 'react';
 import TextField from '@material-ui/core/TextField';
+import {useState} from 'react';
 
 
 function Copyright() {
@@ -65,30 +66,34 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const cards = [
-  {
-    id: 2468,
-    collection: "TNA3",
-    url: "https://s3.eu-west-2.amazonaws.com/deepdiscovery.thumbnails/TNA3/2468.jpg",
-  },
-  {
-    id: 2577,
-    collection: "TNA3",
-    url: "https://s3.eu-west-2.amazonaws.com/deepdiscovery.thumbnails/TNA3/2577.jpg"
-  },
-  {
-    id: 2676,
-    collection: "TNA3",
-    url: "https://s3.eu-west-2.amazonaws.com/deepdiscovery.thumbnails/TNA3/2676.jpg"
-  }
-];
-
 const categories = ["Aesthetic", "Style", "Rose", "Leafy", "Sketch", "Photograph", "Sarsparilla"];
 
 let engine = "Fused";
 let results = "30";
 export default function Album() {
   const classes = useStyles();
+
+  const [cards, setCards] = useState(
+  [
+    {
+      id: 2468,
+      collection: "TNA3",
+      url: "https://s3.eu-west-2.amazonaws.com/deepdiscovery.thumbnails/TNA3/2468.jpg",
+    },
+    {
+      id: 2577,
+      collection: "TNA3",
+      url: "https://s3.eu-west-2.amazonaws.com/deepdiscovery.thumbnails/TNA3/2577.jpg"
+    },
+    {
+      id: 2676,
+      collection: "TNA3",
+      url: "https://s3.eu-west-2.amazonaws.com/deepdiscovery.thumbnails/TNA3/2676.jpg"
+    }
+  ]);
+
+
+
 
   const getSimilar = card => {
     let endpoint = 'https://blockchain.surrey.ac.uk/deepdiscovery/api/upload';
