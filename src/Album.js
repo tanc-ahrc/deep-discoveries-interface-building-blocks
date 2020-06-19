@@ -15,6 +15,8 @@ import Container from '@material-ui/core/Container';
 import Link from '@material-ui/core/Link';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
+import {DropzoneArea} from 'material-ui-dropzone';
+import {Component} from 'react';
 
 
 function Copyright() {
@@ -117,6 +119,9 @@ export default function Album() {
                 </Grid>
               </Grid>
             </div>
+            <DropzoneArea
+              onChange={(f) => handleChange(f)}
+            />
           </Container>
         </div>
         <Container className={classes.cardGrid} maxWidth="md">
@@ -182,4 +187,12 @@ function getSimilar(card) {
 
 function getSimilarCategory(card, category) {
   console.log(card.title + ": " + category);
+}
+
+function handleChange(files) {
+  getSimilar({
+    number: 3,
+    image: files[0],
+    title: "User file"
+  });
 }
