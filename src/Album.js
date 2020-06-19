@@ -190,7 +190,7 @@ function getSimilarCategory(card, category) {
 }
 
 function handleChange(files) {
-  getSimilar({
+  if(files[0]) getSimilar({
     number: 3,
     image: files[0],
     title: "User file"
