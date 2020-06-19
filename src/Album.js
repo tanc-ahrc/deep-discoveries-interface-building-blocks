@@ -99,16 +99,24 @@ export default function Album() {
       <main>
         {/* Hero unit */}
         <div className={classes.heroContent}>
-          <Container maxWidth="sm">
-            <DropzoneArea
-              onChange={(f) => handleChange(f)}
-            />
-            <Form
-              results  = {results}
-              engine   = {engine}
-              onSubmit = {(e) => handleSubmit(e)}
-            />
-          </Container>
+          <Grid container spacing="3" justify="space-between">
+            <Grid item xs>
+              <DropzoneArea
+                onChange={(f) => handleChange(f)}
+              />
+            </Grid>
+            <Grid
+              item xs="3"
+              justify="space-between"
+              align-items="space-between"
+            >
+              <Form
+                results  = {results}
+                engine   = {engine}
+                onSubmit = {(e) => handleSubmit(e)}
+              />
+            </Grid>
+          </Grid>
         </div>
         <Container className={classes.cardGrid} maxWidth="md">
           {/* End hero unit */}
@@ -199,24 +207,28 @@ function handleSubmit(e) {
 function Form(props) {
   return(
     <div>
-      <TextField
-        label="Results"
-        name="results"
-        defaultValue={props.results}
-        onChange={e => props.onSubmit(e)}
-      />
-      <TextField
-        label="Engine"
-        name="engine"
-        defaultValue={props.engine}
-        onChange={e => props.onSubmit(e)}
-        select
-      >
-        <MenuItem value="Fused">Fused</MenuItem>
-        <MenuItem value="UNet">UNet</MenuItem>
-        <MenuItem value="RN101">RN101</MenuItem>
-        <MenuItem value="Sketch">Sketch</MenuItem>
-      </TextField>
+      <Grid item direction="column">
+        <TextField
+          label="Results"
+          name="results"
+          defaultValue={props.results}
+          onChange={e => props.onSubmit(e)}
+        />
+      </Grid>
+      <Grid item direction="column">
+        <TextField
+          label="Engine"
+          name="engine"
+          defaultValue={props.engine}
+          onChange={e => props.onSubmit(e)}
+          select
+        >
+          <MenuItem value="Fused">Fused</MenuItem>
+          <MenuItem value="UNet">UNet</MenuItem>
+          <MenuItem value="RN101">RN101</MenuItem>
+          <MenuItem value="Sketch">Sketch</MenuItem>
+        </TextField>
+      </Grid>
     </div>
   );
 }
