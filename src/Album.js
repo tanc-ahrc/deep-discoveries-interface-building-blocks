@@ -90,6 +90,26 @@ let results = "30";
 export default function Album() {
   const classes = useStyles();
 
+  const getSimilar = card => {
+    let endpoint = 'https://blockchain.surrey.ac.uk/deepdiscovery/api/upload';
+    let formData = new FormData();
+    formData.append('file', card.url);
+    formData.append('searchengine', engine);
+    formData.append('resultcount', results);
+    let xhr = new XMLHttpRequest();
+    xhr.open('POST', endpoint, false);
+    xhr.send(formData);
+    console.info(xhr.responseText);
+  }
+
+  const handleChange = (files) => {
+    if(files[0]) getSimilar({
+      id: 0,
+      url: files[0],
+      title: "User file"
+    });
+  }
+
   return (
     <React.Fragment>
       <CssBaseline />
@@ -179,30 +199,11 @@ export default function Album() {
       {/* End footer */}
     </React.Fragment>
   );
-}
 
-function getSimilar(card) {
-  let endpoint = 'https://blockchain.surrey.ac.uk/deepdiscovery/api/upload';
-  let formData = new FormData();
-  formData.append('file', card.url);
-  formData.append('searchengine', engine);
-  formData.append('resultcount', results);
-  let xhr = new XMLHttpRequest();
-  xhr.open('POST', endpoint, false);
-  xhr.send(formData);
-  console.info(xhr.responseText);
 }
 
 function getSimilarCategory(card, category) {
   console.log(card.title + ": " + category);
-}
-
-function handleChange(files) {
-  if(files[0]) getSimilar({
-    id: 0,
-    url: files[0],
-    title: "User file"
-  });
 }
 
 function handleSubmit(e) {
