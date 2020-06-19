@@ -98,9 +98,11 @@ export default function Album() {
     formData.append('searchengine', engine);
     formData.append('resultcount', resultCount);
     let xhr = new XMLHttpRequest();
-    xhr.open('POST', endpoint, false);
+    xhr.open('POST', endpoint, true);
+    xhr.onload = function() {
+      setCards(JSON.parse(this.responseText));
+    };
     xhr.send(formData);
-    setCards(JSON.parse(xhr.responseText));
   }
 
   const handleChange = (files) => {
