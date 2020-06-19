@@ -112,11 +112,6 @@ export default function Album() {
     });
   }
 
-  const handleSubmit = (e) => {
-    if(e.target.name == "resultCount") setResultCount(e.target.value);
-    else if(e.target.name == "engine") setEngine(e.target.value);
-  }
-
   return (
     <React.Fragment>
       <CssBaseline />
@@ -144,8 +139,9 @@ export default function Album() {
               >
                 <Form
                   resultCount  = {resultCount}
+                  onResultCountUpdate = {setResultCount}
                   engine   = {engine}
-                  onSubmit = {(e) => handleSubmit(e)}
+                  onEngineUpdate = {setEngine}
                 />
               </Grid>
             </Grid>
@@ -210,7 +206,7 @@ function Form(props) {
           label="Results"
           name="resultCount"
           defaultValue={props.resultCount}
-          onChange={e => props.onSubmit(e)}
+          onChange={e => props.onResultCountUpdate(e.target.value)}
         />
       </Grid>
       <Grid item>
@@ -218,7 +214,7 @@ function Form(props) {
           label="Engine"
           name="engine"
           defaultValue={props.engine}
-          onChange={e => props.onSubmit(e)}
+          onChange={e => props.onEngineUpdate(e.target.value)}
           select
         >
           <MenuItem value="Fused">Fused</MenuItem>
