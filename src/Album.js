@@ -197,23 +197,23 @@ export default function Album() {
 
 }
 
-function Form(props) {
+function Form({resultCount, onResultCountUpdate, engine, onEngineUpdate}) {
   return(
     <div>
       <Grid item>
         <TextField
           label="Results"
           name="resultCount"
-          defaultValue={props.resultCount}
-          onChange={e => props.onResultCountUpdate(e.target.value)}
+          defaultValue={resultCount}
+          onChange={e => onResultCountUpdate(e.target.value)}
         />
       </Grid>
       <Grid item>
         <TextField
           label="Engine"
           name="engine"
-          defaultValue={props.engine}
-          onChange={e => props.onEngineUpdate(e.target.value)}
+          defaultValue={engine}
+          onChange={e => onEngineUpdate(e.target.value)}
           select
         >
           <MenuItem value="Fused">Fused</MenuItem>
