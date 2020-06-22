@@ -100,17 +100,13 @@ export default function Album() {
               />
             </Grid>
             <Grid item xs={3}>
-              <Grid
-                container direction="column"
-                align-items="space-between"
-              >
-                <Form
-                  resultCount  = {resultCount}
-                  onResultCountUpdate = {setResultCount}
-                  engine   = {engine}
-                  onEngineUpdate = {setEngine}
-                />
-              </Grid>
+              <Form
+                className = {classes.heroContent}
+                resultCount  = {resultCount}
+                onResultCountUpdate = {setResultCount}
+                engine   = {engine}
+                onEngineUpdate = {setEngine}
+              />
             </Grid>
           </Grid>
         </div>
@@ -156,7 +152,10 @@ export default function Album() {
 
 function Form({resultCount, onResultCountUpdate, engine, onEngineUpdate}) {
   return(
-    <div>
+    <Grid
+      container direction="column"
+      align-items="space-between"
+    >
       <Grid item>
         <TextField
           label="Results"
@@ -179,6 +178,6 @@ function Form({resultCount, onResultCountUpdate, engine, onEngineUpdate}) {
           <MenuItem value="Sketch">Sketch</MenuItem>
         </TextField>
       </Grid>
-    </div>
+    </Grid>
   );
 }
