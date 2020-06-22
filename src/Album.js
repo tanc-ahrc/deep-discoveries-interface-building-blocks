@@ -47,24 +47,7 @@ const useStyles = makeStyles((theme) => ({
 export default function Album() {
   const classes = useStyles();
 
-  const [cards, setCards] = useState(
-  [
-    {
-      id: 2468,
-      collection: "TNA3",
-      url: "https://s3.eu-west-2.amazonaws.com/deepdiscovery.thumbnails/TNA3/2468.jpg",
-    },
-    {
-      id: 2577,
-      collection: "TNA3",
-      url: "https://s3.eu-west-2.amazonaws.com/deepdiscovery.thumbnails/TNA3/2577.jpg"
-    },
-    {
-      id: 2676,
-      collection: "TNA3",
-      url: "https://s3.eu-west-2.amazonaws.com/deepdiscovery.thumbnails/TNA3/2676.jpg"
-    }
-  ]);
+  const [cards, setCards] = useState([]);
   const [engine, setEngine] = useState("Fused");
   const [resultCount, setResultCount] = useState(30);
 
