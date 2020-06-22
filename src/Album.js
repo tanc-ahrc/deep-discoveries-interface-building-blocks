@@ -9,10 +9,14 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import MenuItem from '@material-ui/core/MenuItem';
 import {DropzoneArea} from 'material-ui-dropzone';
 import TextField from '@material-ui/core/TextField';
 import {useState} from 'react';
+import Radio from '@material-ui/core/Radio';
+import RadioGroup from '@material-ui/core/RadioGroup';
+import FormLabel from '@material-ui/core/FormLabel';
+import FormControl from '@material-ui/core/FormControl';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -166,18 +170,20 @@ function Form({resultCount, onResultCountUpdate, engine, onEngineUpdate}) {
         />
       </Grid>
       <Grid item>
-        <TextField
-          label="Engine"
-          name="engine"
-          value={engine}
-          onChange={e => onEngineUpdate(e.target.value)}
-          select
-        >
-          <MenuItem value="Fused">Fused</MenuItem>
-          <MenuItem value="UNet">UNet</MenuItem>
-          <MenuItem value="RN101">RN101</MenuItem>
-          <MenuItem value="Sketch">Sketch</MenuItem>
-        </TextField>
+        <FormControl component="fieldset">
+          <FormLabel id="engine_legend" component="legend">Search Engine</FormLabel>
+          <RadioGroup
+            name="engine"
+            value={engine}
+            onChange={e => onEngineUpdate(e.target.value)}
+            aria-labelledby="engine_legend"
+          >
+            <FormControlLabel value="Fused" control={<Radio/>} label="Fused"/>
+            <FormControlLabel value="UNet" control={<Radio/>} label="UNet"/>
+            <FormControlLabel value="RN101" control={<Radio/>} label="RN101"/>
+            <FormControlLabel value="Sketch" control={<Radio/>} label="Sketch"/>
+          </RadioGroup>
+        </FormControl>
       </Grid>
     </Grid>
   );
