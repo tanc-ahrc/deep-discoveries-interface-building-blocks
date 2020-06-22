@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
   },
   cardGrid: {
     paddingTop: theme.spacing(8),
-    paddingBottom: theme.spacing(8),
+    paddingBottom: theme.spacing(4),
   },
   card: {
     height: '100%',
@@ -39,7 +39,7 @@ const useStyles = makeStyles((theme) => ({
     position: 'relative',
   },
   cardMedia: {
-    paddingTop: '56.25%', // 16:9
+    paddingTop: '100%'
   },
   cardContent: {
     flexGrow: 1,
@@ -129,13 +129,10 @@ export default function Album() {
                     image={card.url}
                     title={card.title}
                   />
-                  <div className={classes.cardOverlay}><img align="right" style={{width:15 + '%'}} src="tna-logo-600x315.jpg" alt="The National Archives"/></div>
+                  <div className={classes.cardOverlay}><img align="right" style={{width:20 + '%'}} src="tna-logo-600x315.jpg" alt="The National Archives"/></div>
                   <CardContent className={classes.cardContent}>
                     <Typography gutterBottom variant="h5" component="h2">
                       {card.title}
-                    </Typography>
-                    <Typography>
-                      {card.collection}
                     </Typography>
                   </CardContent>
                   <CardActions>
