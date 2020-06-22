@@ -59,6 +59,7 @@ export default function Album() {
       setCards([]);
       return;
     }
+    if(resultCount === '') return;
     let endpoint = 'https://blockchain.surrey.ac.uk/deepdiscovery/api/upload';
     let formData = new FormData();
     formData.append('file', inputCard.url);
@@ -162,7 +163,10 @@ function Form({resultCount, onResultCountUpdate, engine, onEngineUpdate}) {
           label="Results"
           name="resultCount"
           value={resultCount}
-          onChange={e => onResultCountUpdate(e.target.value)}
+          onChange={e => {
+            let input = e.target.value;
+            if(/^\d{0,3}$/.test(input)) onResultCountUpdate(input);
+          }}
         />
       </Grid>
       <Grid item>
