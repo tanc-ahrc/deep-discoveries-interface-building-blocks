@@ -160,6 +160,7 @@ function Form({resultCount, onResultCountUpdate, engine, onEngineUpdate}) {
       container
       direction="column"
       align-items="space-between"
+      spacing={3}
     >
       <Grid item>
         <TextField
