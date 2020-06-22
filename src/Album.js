@@ -36,12 +36,16 @@ const useStyles = makeStyles((theme) => ({
     height: '100%',
     display: 'flex',
     flexDirection: 'column',
+    position: 'relative',
   },
   cardMedia: {
     paddingTop: '56.25%', // 16:9
   },
   cardContent: {
     flexGrow: 1,
+  },
+  cardOverlay: {
+    position: 'absolute',
   },
 }));
 
@@ -125,6 +129,7 @@ export default function Album() {
                     image={card.url}
                     title={card.title}
                   />
+                  <div className={classes.cardOverlay}><img align="right" style={{width:15 + '%'}} src="tna-logo-600x315.jpg" alt="The National Archives"/></div>
                   <CardContent className={classes.cardContent}>
                     <Typography gutterBottom variant="h5" component="h2">
                       {card.title}
