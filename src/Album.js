@@ -12,6 +12,7 @@ import Container from '@material-ui/core/Container';
 import {DropzoneArea} from 'material-ui-dropzone';
 import TextField from '@material-ui/core/TextField';
 import {useState} from 'react';
+import {useEffect} from 'react';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormLabel from '@material-ui/core/FormLabel';
@@ -50,12 +51,17 @@ export default function Album() {
   const [cards, setCards] = useState([]);
   const [engine, setEngine] = useState("Fused");
   const [resultCount, setResultCount] = useState(30);
+  const [inputCard, setInputCard] = useState(null);
 
 
-  const getSimilar = card => {
+  const getSimilar = () => {
+    if(inputCard == null) { /* if inputCard is undefined or null */
+      setCards([]);
+      return;
+    }
     let endpoint = 'https://blockchain.surrey.ac.uk/deepdiscovery/api/upload';
     let formData = new FormData();
-    formData.append('file', card.url);
+    formData.append('file', inputCard.url);
     formData.append('searchengine', engine);
     formData.append('resultcount', resultCount);
     let xhr = new XMLHttpRequest();
@@ -66,12 +72,17 @@ export default function Album() {
     xhr.send(formData);
   }
 
+  useEffect(getSimilar, [inputCard, resultCount, engine]);
+
   const handleChange = (files) => {
-    if(files[0]) getSimilar({
-      id: 0,
-      url: files[0],
-      title: "User file"
-    });
+    if(files[0]) {
+      setInputCard({
+        id: 0,
+        url: files[0],
+        title: "User file"
+      });
+    }
+    else setInputCard(null);
   }
 
   return (
@@ -84,6 +95,7 @@ export default function Album() {
             <Grid item xs>
               <DropzoneArea
                 onChange={(f) => handleChange(f)}
+                fileObjects = {[inputCard]}
               />
             </Grid>
             <Grid item xs={3}>
@@ -122,7 +134,7 @@ export default function Album() {
                       View
                     </Button>
                     <Button size="small" color="primary"
-                            onClick={() => getSimilar(card)}>
+                            onClick={() => setInputCard(card)}>
                       Similar
                     </Button>
                   </CardActions>
