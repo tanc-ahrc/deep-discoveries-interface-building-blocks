@@ -153,7 +153,8 @@ export default function Album() {
 function Form({resultCount, onResultCountUpdate, engine, onEngineUpdate}) {
   return(
     <Grid
-      container direction="column"
+      container
+      direction="column"
       align-items="space-between"
     >
       <Grid item>
