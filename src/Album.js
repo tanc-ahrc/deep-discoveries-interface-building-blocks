@@ -73,7 +73,7 @@ export default function Album() {
     xhr.send(formData);
   }
 
-  useEffect(getSimilar, [inputCard, resultCount, engine]);
+  useEffect(getSimilar, [inputCard, engine]);
 
   const handleChange = (files) => {
     if(files[0]) {
@@ -109,6 +109,7 @@ export default function Album() {
                 onResultCountUpdate = {setResultCount}
                 engine   = {engine}
                 onEngineUpdate = {setEngine}
+                forceUpdate = {getSimilar}
               />
             </Grid>
           </Grid>
@@ -153,7 +154,7 @@ export default function Album() {
 
 }
 
-function Form({resultCount, onResultCountUpdate, engine, onEngineUpdate}) {
+function Form({resultCount, onResultCountUpdate, engine, onEngineUpdate, forceUpdate}) {
   return(
     <Grid
       container
@@ -170,6 +171,7 @@ function Form({resultCount, onResultCountUpdate, engine, onEngineUpdate}) {
             let input = e.target.value;
             if(/^\d{0,3}$/.test(input)) onResultCountUpdate(input);
           }}
+          onBlur = { forceUpdate }
         />
       </Grid>
       <Grid item>
