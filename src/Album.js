@@ -129,7 +129,7 @@ export default function Album() {
                     image={card.url}
                     title={card.title}
                   />
-                  <div className={classes.cardOverlay}><img align="right" style={{width:20 + '%'}} src="tna-logo-600x315.jpg" alt="The National Archives"/></div>
+                  <Watermark collection={card.collection}/>
                   <CardContent className={classes.cardContent}>
                     <Typography gutterBottom variant="h5" component="h2">
                       {card.title}
@@ -154,6 +154,30 @@ export default function Album() {
     </React.Fragment>
   );
 
+}
+
+function Watermark({collection}) {
+  const classes = useStyles();
+  let logo, alt;
+  if(collection === "TNA3") {
+    logo = "tna.png";
+    alt = "The National Archives"
+  }
+  else if(collection === "RGBE") {
+    logo = "rgbe.jpeg";
+    alt = "Royal Botanic Garden Edinburgh"
+  }
+  else return(null);
+
+  return(
+    <div className={classes.cardOverlay}>
+      <img
+        style={{width:40 + 'px'}}
+        src={logo}
+        alt={alt}
+      />
+    </div>
+  );
 }
 
 function Form({resultCount, onResultCountUpdate, engine, onEngineUpdate, forceUpdate}) {
