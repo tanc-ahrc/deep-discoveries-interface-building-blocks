@@ -53,15 +53,16 @@ export default function Album() {
   const [cards, setCards] = useState([]);
   const [engine, setEngine] = useState("Fused");
   const [resultCount, setResultCount] = useState(30);
+  const [oldResultCount, setOldResultCount] = useState(resultCount);
   const [inputCard, setInputCard] = useState(null);
 
 
   const getSimilar = () => {
+    setOldResultCount(resultCount);
     if(inputCard == null) { /* if inputCard is undefined or null */
       setCards([]);
       return;
     }
-    if(resultCount === '') return;
     let endpoint = 'https://blockchain.surrey.ac.uk/deepdiscovery/api/upload';
     let formData = new FormData();
     formData.append('file', inputCard.url);
@@ -107,6 +108,7 @@ export default function Album() {
             <Grid item xs={3}>
               <Form
                 className = {classes.heroContent}
+                restoreCount = {() => {setResultCount(oldResultCount);}}
                 resultCount  = {resultCount}
                 onResultCountUpdate = {setResultCount}
                 engine   = {engine}
@@ -170,7 +172,7 @@ function Watermark({collection}) {
   );
 }
 
-function Form({resultCount, onResultCountUpdate, engine, onEngineUpdate, forceUpdate}) {
+function Form({resultCount, onResultCountUpdate, restoreCount, engine, onEngineUpdate, forceUpdate}) {
   return(
     <Grid
       container
@@ -187,7 +189,14 @@ function Form({resultCount, onResultCountUpdate, engine, onEngineUpdate, forceUp
             let input = e.target.value;
             if(/^\d{0,3}$/.test(input)) onResultCountUpdate(input);
           }}
-          onBlur = { forceUpdate }
+          onBlur = {restoreCount}
+          onKeyPress = { (e) => {
+            if(e.key === 'Enter') {
+              console.log(resultCount);
+              if(parseInt(resultCount, 10) === 0 || resultCount === '') restoreCount();
+              else forceUpdate();
+            }
+          }}
         />
       </Grid>
       <Grid item>
