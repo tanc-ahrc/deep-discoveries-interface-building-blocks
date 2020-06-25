@@ -132,7 +132,7 @@ export default function Album() {
                   <CardContent className={classes.cardContent}>
                     <Typography variant="caption">
                       ID: {card.id}<br/>
-                      Collection: {getCollection(card.collection)}
+                      Collection: {getCollectionName(card.collection)}
                     </Typography>
                   </CardContent>
                 </Card>
@@ -146,7 +146,7 @@ export default function Album() {
 
 }
 
-function getCollection(collection) {
+function getCollectionName(collection) {
   if(collection === "TNA3") return "The National Archives";
   else if(collection === "RGBE") return "Royal Botanic Garden Edinburgh";
   else return collection;
@@ -154,7 +154,7 @@ function getCollection(collection) {
 
 function Watermark({collection}) {
   const classes = useStyles();
-  let alt = getCollection(collection);
+  let alt = getCollectionName(collection);
   let logo;
   if(collection === "TNA3") logo = "tna.png";
   else if(collection === "RGBE") logo = "rgbe.jpeg";
