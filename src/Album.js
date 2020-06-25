@@ -162,7 +162,7 @@ function Watermark({collection}) {
   else return(null);
 
   return(
-    <div className={classes.cardOverlay}>
+    <div className={classes.cardOverlay} style={{right:0, bottom:0}}>
       <Tooltip title={alt}>
         <img
           style={{width:40 + 'px'}}
