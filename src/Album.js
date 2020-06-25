@@ -52,7 +52,7 @@ export default function Album() {
 
   const [cards, setCards] = useState([]);
   const [engine, setEngine] = useState("Fused");
-  const [resultCount, setResultCount] = useState(30);
+  const [resultCount, setResultCount] = useState(8);
   const [oldResultCount, setOldResultCount] = useState(resultCount);
   const [inputCard, setInputCard] = useState(null);
 
