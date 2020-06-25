@@ -147,7 +147,7 @@ export default function Album() {
 }
 
 function getCollectionName(collection) {
-  if(collection === "TNA3") return "The National Archives";
+  if(collection.slice(0,3) === "TNA") return "The National Archives";
   else if(collection === "RGBE") return "Royal Botanic Garden Edinburgh";
   else return collection;
 }
@@ -156,7 +156,7 @@ function Watermark({collection}) {
   const classes = useStyles();
   let alt = getCollectionName(collection);
   let logo;
-  if(collection === "TNA3") logo = "tna.png";
+  if(collection.slice(0,3) === "TNA") logo = "tna.png";
   else if(collection === "RGBE") logo = "rgbe.jpeg";
   else return(null);
 
