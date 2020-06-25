@@ -16,6 +16,7 @@ import RadioGroup from '@material-ui/core/RadioGroup';
 import FormLabel from '@material-ui/core/FormLabel';
 import FormControl from '@material-ui/core/FormControl';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Tooltip from '@material-ui/core/Tooltip';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -162,11 +163,13 @@ function Watermark({collection}) {
 
   return(
     <div className={classes.cardOverlay}>
-      <img
-        style={{width:40 + 'px'}}
-        src={logo}
-        alt={alt}
-      />
+      <Tooltip title={alt}>
+        <img
+          style={{width:40 + 'px'}}
+          src={logo}
+          alt={alt}
+        />
+      </Tooltip>
     </div>
   );
 }
