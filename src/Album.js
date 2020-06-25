@@ -124,11 +124,13 @@ export default function Album() {
             {cards.map((card) => (
               <Grid item key={card.id} xs={6} sm={6} md={3}>
                 <Card className={classes.card}>
-                  <CardMedia
-                    className={classes.cardMedia}
-                    image={card.url}
-                    title={card.title}
-                  />
+                  <a href={card.url}>
+                    <CardMedia
+                      className={classes.cardMedia}
+                      image={card.url}
+                      title={card.title}
+                    />
+                  </a>
                   <Watermark collection={card.collection}/>
                   <CardContent className={classes.cardContent}>
                     <Typography variant="caption">
