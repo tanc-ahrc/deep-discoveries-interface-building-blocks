@@ -96,11 +96,12 @@ export default function Album() {
           <Grid container spacing={3} justify="space-between">
             <Grid item xs>
               <DropzoneArea
-                acceptedFiles={['image/*']}
+                acceptedFiles={['image/jpeg', 'image/png']}
                 filesLimit = {1}
                 onChange={(f) => handleChange(f)}
                 fileObjects = {[inputCard]}
                 showAlerts={['error']}
+                maxFileSize={1024*1024*10}
               />
             </Grid>
             <Grid item xs={3}>
