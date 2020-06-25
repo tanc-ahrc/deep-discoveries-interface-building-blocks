@@ -133,7 +133,6 @@ export default function Album() {
                   <CardContent className={classes.cardContent}>
                     <Typography variant="caption">
                       ID: {card.id}<br/>
-                      Collection: {getCollectionName(card.collection)}
                     </Typography>
                   </CardContent>
                 </Card>
@@ -159,7 +158,11 @@ function Watermark({collection}) {
   let logo;
   if(collection.slice(0,3) === "TNA") logo = "tna.png";
   else if(collection === "RGBE") logo = "rgbe.jpeg";
-  else return(null);
+  else return(
+    <Typography variant="caption">
+      {collection}
+    </Typography>
+  );
 
   return(
     <div className={classes.cardOverlay} style={{right:0, bottom:0}}>
