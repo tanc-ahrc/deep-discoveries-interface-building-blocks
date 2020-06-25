@@ -207,9 +207,9 @@ function Form({resultCount, onResultCountUpdate, restoreCount, engine, onEngineU
             onChange={e => onEngineUpdate(e.target.value)}
             aria-labelledby="engine_legend"
           >
-            <FormControlLabel value="Fused" control={<Radio/>} label="Fused"/>
-            <FormControlLabel value="UNet" control={<Radio/>} label="UNet"/>
-            <FormControlLabel value="RN101" control={<Radio/>} label="RN101"/>
+            <FormControlLabel value="Fused" control={<Radio/>} label="StyleFine (Fused)"/>
+            <FormControlLabel value="UNet" control={<Radio/>} label="ALADIN (UNet)"/>
+            <FormControlLabel value="RN101" control={<Radio/>} label="Semantic (RN101)"/>
             <FormControlLabel value="Sketch" control={<Radio/>} label="Sketch"/>
           </RadioGroup>
         </FormControl>
