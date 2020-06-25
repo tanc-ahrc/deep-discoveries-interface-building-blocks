@@ -59,10 +59,8 @@ export default function Album() {
 
   const getSimilar = () => {
     setOldResultCount(resultCount);
-    if(inputCard == null) { /* if inputCard is undefined or null */
-      setCards([]);
-      return;
-    }
+    setCards([]);
+    if(inputCard == null) return; /* if inputCard is undefined or null */
     let endpoint = 'https://blockchain.surrey.ac.uk/deepdiscovery/api/upload';
     let formData = new FormData();
     formData.append('file', inputCard.url);
