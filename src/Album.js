@@ -52,7 +52,7 @@ export default function Album() {
   const classes = useStyles();
 
   const [cards, setCards] = useState([]);
-  const [engine, setEngine] = useState("Fused");
+  const [engine, setEngine] = useState("Style");
   const [resultCount, setResultCount] = useState(8);
   const [oldResultCount, setOldResultCount] = useState(resultCount);
   const [inputCard, setInputCard] = useState(null);
@@ -64,7 +64,7 @@ export default function Album() {
     if(inputCard == null) return; /* if inputCard is undefined or null */
     let endpoint = 'https://blockchain.surrey.ac.uk/deepdiscovery/api/upload';
     let formData = new FormData();
-    formData.append('file', inputCard.url);
+    formData.append('query_file', inputCard.url);
     formData.append('searchengine', engine);
     formData.append('resultcount', resultCount);
     let xhr = new XMLHttpRequest();
@@ -80,7 +80,7 @@ export default function Album() {
   const handleChange = (files) => {
     if(files[0]) {
       setInputCard({
-        id: 0,
+        aid: 0,
         url: files[0],
         title: "User file"
       });
@@ -122,7 +122,7 @@ export default function Album() {
           {/* End hero unit */}
           <Grid container spacing={4}>
             {cards.map((card) => (
-              <Grid item key={card.id} xs={6} sm={6} md={3}>
+              <Grid item key={card.aid} xs={6} sm={6} md={3}>
                 <Card className={classes.card}>
                   <a href={card.url}>
                     <CardMedia
@@ -134,7 +134,8 @@ export default function Album() {
                   <Watermark collection={card.collection}/>
                   <CardContent className={classes.cardContent}>
                     <Typography variant="caption">
-                      ID: {card.id}<br/>
+                      Asset ID: {card.aid}<br/>
+                      Distance: {card.distance}
                     </Typography>
                   </CardContent>
                 </Card>
@@ -215,10 +216,8 @@ function Form({resultCount, onResultCountUpdate, restoreCount, engine, onEngineU
             onChange={e => onEngineUpdate(e.target.value)}
             aria-labelledby="engine_legend"
           >
-            <FormControlLabel value="Fused" control={<Radio/>} label="StyleFine (Fused)"/>
-            <FormControlLabel value="UNet" control={<Radio/>} label="ALADIN (UNet)"/>
-            <FormControlLabel value="RN101" control={<Radio/>} label="Semantic (RN101)"/>
-            <FormControlLabel value="Sketch" control={<Radio/>} label="Sketch"/>
+            <FormControlLabel value="Style" control={<Radio/>} label="Style"/>
+            <FormControlLabel value="Semantic" control={<Radio/>} label="Semantic"/>
           </RadioGroup>
         </FormControl>
       </Grid>
