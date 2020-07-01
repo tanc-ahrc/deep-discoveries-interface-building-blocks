@@ -55,16 +55,18 @@ export default function Album() {
   const [engine, setEngine] = useState("Style");
   const [resultCount, setResultCount] = useState(8);
   const [oldResultCount, setOldResultCount] = useState(resultCount);
-  const [inputCard, setInputCard] = useState(null);
+  const [inputCards, setInputCards] = useState([]);
 
 
   const getSimilar = () => {
     setOldResultCount(resultCount);
     setCards([]);
-    if(inputCard == null) return; /* if inputCard is undefined or null */
+    if(inputCards.length === 0) return;
     let endpoint = 'https://blockchain.surrey.ac.uk/deepdiscovery/api/upload';
     let formData = new FormData();
-    formData.append('query_file', inputCard.url);
+    for(let inputCard of inputCards) {
+      formData.append('query_file', inputCard.url);
+    }
     formData.append('searchengine', engine);
     formData.append('resultcount', resultCount);
     let xhr = new XMLHttpRequest();
@@ -75,17 +77,18 @@ export default function Album() {
     xhr.send(formData);
   }
 
-  useEffect(getSimilar, [inputCard, engine]);
+  useEffect(getSimilar, [inputCards, engine]);
 
   const handleChange = (files) => {
-    if(files[0]) {
-      setInputCard({
+    let newCards = [];
+    for(let file of files) {
+      newCards.push({
         aid: 0,
-        url: files[0],
+        url: file,
         title: "User file"
       });
     }
-    else setInputCard(null);
+    setInputCards(newCards);
   }
 
   return (
@@ -98,9 +101,9 @@ export default function Album() {
             <Grid item xs>
               <DropzoneArea
                 acceptedFiles={['image/jpeg', 'image/png']}
-                filesLimit = {1}
+                filesLimit = {9}
                 onChange={(f) => handleChange(f)}
-                fileObjects = {[inputCard]}
+                fileObjects = {inputCards}
                 showAlerts={['error']}
                 maxFileSize={1024*1024*10}
               />
