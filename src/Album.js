@@ -99,13 +99,9 @@ export default function Album() {
         <div className={classes.heroContent}>
           <Grid container spacing={3} justify="space-between">
             <Grid item xs>
-              <DropzoneArea
-                acceptedFiles={['image/jpeg', 'image/png']}
-                filesLimit = {9}
+              <DropZone
                 onChange={(f) => handleChange(f)}
-                fileObjects = {inputCards}
-                showAlerts={['error']}
-                maxFileSize={1024*1024*10}
+                inputCards = {inputCards}
               />
             </Grid>
             <Grid item xs={3}>
@@ -135,6 +131,21 @@ export default function Album() {
     </React.Fragment>
   );
 
+}
+
+function DropZone({onChange, inputCards}) {
+  return(
+    <div>
+      <DropzoneArea
+        acceptedFiles={['image/jpeg', 'image/png']}
+        filesLimit = {9}
+        onChange={onChange}
+        fileObjects = {inputCards}
+        showAlerts={['error']}
+        maxFileSize={1024*1024*10}
+      />
+    </div>
+  );
 }
 
 function getCollectionName(collection) {
