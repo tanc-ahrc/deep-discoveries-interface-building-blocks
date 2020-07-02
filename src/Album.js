@@ -188,7 +188,6 @@ function Form({resultCount, onResultCountUpdate, restoreCount, engine, onEngineU
           onBlur = {restoreCount}
           onKeyPress = { (e) => {
             if(e.key === 'Enter') {
-              console.log(resultCount);
               if(parseInt(resultCount, 10) === 0 || resultCount === '') restoreCount();
               else forceUpdate();
             }
