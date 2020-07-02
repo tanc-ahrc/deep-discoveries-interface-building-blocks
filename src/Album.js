@@ -126,22 +126,7 @@ export default function Album() {
           <Grid container spacing={4}>
             {cards.map((card) => (
               <Grid item key={card.aid} xs={6} sm={6} md={3}>
-                <Card className={classes.card}>
-                  <a href={card.url}>
-                    <CardMedia
-                      className={classes.cardMedia}
-                      image={card.url}
-                      title={card.title}
-                    />
-                  </a>
-                  <Watermark collection={card.collection}/>
-                  <CardContent className={classes.cardContent}>
-                    <Typography variant="caption">
-                      Asset ID: {card.aid}<br/>
-                      Distance: {card.distance}
-                    </Typography>
-                  </CardContent>
-                </Card>
+                <ImageCard card={card}/>
               </Grid>
             ))}
           </Grid>
@@ -225,5 +210,27 @@ function Form({resultCount, onResultCountUpdate, restoreCount, engine, onEngineU
         </FormControl>
       </Grid>
     </Grid>
+  );
+}
+
+function ImageCard({card}) {
+  const classes = useStyles();
+  return(
+    <Card className={classes.card}>
+      <a href={card.url}>
+        <CardMedia
+          className={classes.cardMedia}
+          image={card.url}
+          title={card.title}
+        />
+      </a>
+      <Watermark collection={card.collection}/>
+      <CardContent className={classes.cardContent}>
+        <Typography variant="caption">
+          Asset ID: {card.aid}<br/>
+          Distance: {card.distance}
+        </Typography>
+      </CardContent>
+    </Card>
   );
 }
