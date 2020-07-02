@@ -65,7 +65,9 @@ export default function Album() {
     let endpoint = 'https://blockchain.surrey.ac.uk/deepdiscovery/api/upload';
     let formData = new FormData();
     for(let inputCard of inputCards) {
-      formData.append('query_file', inputCard.url);
+      if(inputCard.aid) formData.append('query_aid', inputCard.aid);
+      else if(inputCard.file) formData.append('query_file', inputCard.file);
+      else if(inputCard.url) formData.append('query_url', inputCard.url);
     }
     formData.append('searchengine', engine);
     formData.append('resultcount', resultCount);
@@ -83,9 +85,7 @@ export default function Album() {
     let newCards = [];
     for(let file of files) {
       newCards.push({
-        aid: 0,
-        url: file,
-        title: "User file"
+        file: file,
       });
     }
     setInputCards(newCards);
