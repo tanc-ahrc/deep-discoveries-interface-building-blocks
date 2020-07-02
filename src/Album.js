@@ -17,6 +17,8 @@ import FormLabel from '@material-ui/core/FormLabel';
 import FormControl from '@material-ui/core/FormControl';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Tooltip from '@material-ui/core/Tooltip';
+import { useDrop, useDrag, DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -96,46 +98,53 @@ export default function Album() {
       <CssBaseline />
       <main>
         {/* Hero unit */}
-        <div className={classes.heroContent}>
-          <Grid container spacing={3} justify="space-between">
-            <Grid item xs>
-              <DropZone
-                onChange={(f) => handleChange(f)}
-                inputCards = {inputCards}
-              />
-            </Grid>
-            <Grid item xs={3}>
-              <Form
-                className = {classes.heroContent}
-                restoreCount = {() => {setResultCount(oldResultCount);}}
-                resultCount  = {resultCount}
-                onResultCountUpdate = {setResultCount}
-                engine   = {engine}
-                onEngineUpdate = {setEngine}
-                forceUpdate = {getSimilar}
-              />
-            </Grid>
-          </Grid>
-        </div>
-        <Container className={classes.cardGrid} maxWidth="md">
-          {/* End hero unit */}
-          <Grid container spacing={4}>
-            {cards.map((card) => (
-              <Grid item key={card.aid} xs={6} sm={6} md={3}>
-                <ImageCard card={card}/>
+        <DndProvider backend={HTML5Backend}>
+          <div className={classes.heroContent}>
+            <Grid container spacing={3} justify="space-between">
+              <Grid item xs>
+                <DropZone
+                  onChange={(f) => handleChange(f)}
+                  inputCards = {inputCards}
+                  setInputCards = {setInputCards}
+                />
               </Grid>
-            ))}
-          </Grid>
-        </Container>
+              <Grid item xs={3}>
+                <Form
+                  className = {classes.heroContent}
+                  restoreCount = {() => {setResultCount(oldResultCount);}}
+                  resultCount  = {resultCount}
+                  onResultCountUpdate = {setResultCount}
+                  engine   = {engine}
+                  onEngineUpdate = {setEngine}
+                  forceUpdate = {getSimilar}
+                />
+              </Grid>
+            </Grid>
+          </div>
+          <Container className={classes.cardGrid} maxWidth="md">
+            {/* End hero unit */}
+            <Grid container spacing={4}>
+              {cards.map((card) => (
+                <Grid item key={card.aid} xs={6} sm={6} md={3}>
+                  <ImageCard card={card}/>
+                </Grid>
+              ))}
+            </Grid>
+          </Container>
+        </DndProvider>
       </main>
     </React.Fragment>
   );
 
 }
 
-function DropZone({onChange, inputCards}) {
+function DropZone({onChange, inputCards, setInputCards}) {
+  const [, drop] = useDrop({
+    accept: ['CARD'],
+    drop: (item) => { setInputCards([item.card]); },
+  });
   return(
-    <div>
+    <div ref={drop}>
       <DropzoneArea
         acceptedFiles={['image/jpeg', 'image/png']}
         filesLimit = {9}
@@ -225,8 +234,16 @@ function Form({resultCount, onResultCountUpdate, restoreCount, engine, onEngineU
 
 function ImageCard({card}) {
   const classes = useStyles();
+
+  const [, drag] = useDrag({
+   item: {
+     type: 'CARD',
+     card: card
+   },
+  });
+
   return(
-    <Card className={classes.card}>
+    <Card ref={drag} className={classes.card}>
       <a href={card.url}>
         <CardMedia
           className={classes.cardMedia}
