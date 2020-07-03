@@ -18,6 +18,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Tooltip from '@material-ui/core/Tooltip';
 import { useDrop, useDrag, DndProvider } from "react-dnd";
 import { NativeTypes, HTML5Backend } from "react-dnd-html5-backend";
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -57,9 +58,11 @@ export default function Album() {
   const [resultCount, setResultCount] = useState(8);
   const [oldResultCount, setOldResultCount] = useState(resultCount);
   const [inputCards, setInputCards] = useState([]);
+  const [fetching, setFetching] = useState(false);
 
 
   const getSimilar = () => {
+    if(fetching) console.warn("Nested fetch");
     setOldResultCount(resultCount);
     setCards([]);
     if(inputCards.length === 0) return;
@@ -76,7 +79,9 @@ export default function Album() {
     xhr.open('POST', endpoint, true);
     xhr.onload = function() {
       setCards(JSON.parse(this.responseText));
+      setFetching(false);
     };
+    setFetching(true);
     xhr.send(formData);
   }
 
@@ -131,6 +136,7 @@ export default function Album() {
                   onURLDrop={(u) => updateURLInputs(u)}
                   onAssetDrop={(a) => updateAssetInput(a)}
                   inputCards = {inputCards}
+                  disabled = {fetching}
                 />
               </Grid>
               <Grid item xs={3}>
@@ -142,12 +148,14 @@ export default function Album() {
                   engine   = {engine}
                   onEngineUpdate = {setEngine}
                   forceUpdate = {getSimilar}
+                  disabled = {fetching}
                 />
               </Grid>
             </Grid>
           </div>
           <Container className={classes.cardGrid} maxWidth="md">
             {/* End hero unit */}
+            { fetching ? <CircularProgress/> : null }
             <Grid container spacing={4}>
               {cards.map((card) => (
                 <Grid item key={card.aid} xs={6} sm={6} md={3}>
@@ -163,7 +171,7 @@ export default function Album() {
 
 }
 
-function InputZone({onFileDrop, onURLDrop, onAssetDrop, inputCards}) {
+function InputZone({onFileDrop, onURLDrop, onAssetDrop, inputCards, disabled}) {
   const [, drop] = useDrop({
     accept: [NativeTypes.FILE, NativeTypes.URL, 'CARD'],
     drop: (item, monitor) => {
@@ -188,7 +196,7 @@ function InputZone({onFileDrop, onURLDrop, onAssetDrop, inputCards}) {
     },
   });
   return(
-    <div ref={drop}>
+    <div ref={disabled ? null : drop}>
       <Grid container spacing={4}>
         {inputCards.map((card) => (
           <Grid item key={card.key} xs={6} sm={6} md={3}>
@@ -237,7 +245,7 @@ function Watermark({collection}) {
   );
 }
 
-function Form({resultCount, onResultCountUpdate, restoreCount, engine, onEngineUpdate, forceUpdate}) {
+function Form({resultCount, onResultCountUpdate, restoreCount, engine, onEngineUpdate, forceUpdate, disabled}) {
   return(
     <Grid
       container
@@ -245,38 +253,40 @@ function Form({resultCount, onResultCountUpdate, restoreCount, engine, onEngineU
       align-items="space-between"
       spacing={3}
     >
-      <Grid item>
-        <TextField
-          label="Results"
-          name="resultCount"
-          value={resultCount}
-          onChange={e => {
-            let input = e.target.value;
-            if(/^\d{0,3}$/.test(input)) onResultCountUpdate(input);
-          }}
-          onBlur = {restoreCount}
-          onKeyPress = { (e) => {
-            if(e.key === 'Enter') {
-              if(parseInt(resultCount, 10) === 0 || resultCount === '') restoreCount();
-              else forceUpdate();
-            }
-          }}
-        />
-      </Grid>
-      <Grid item>
-        <FormControl component="fieldset">
-          <FormLabel id="engine_legend" component="legend">Search Engine</FormLabel>
-          <RadioGroup
-            name="engine"
-            value={engine}
-            onChange={e => onEngineUpdate(e.target.value)}
-            aria-labelledby="engine_legend"
-          >
-            <FormControlLabel value="Style" control={<Radio/>} label="Style"/>
-            <FormControlLabel value="Semantic" control={<Radio/>} label="Semantic"/>
-          </RadioGroup>
-        </FormControl>
-      </Grid>
+      <fieldset disabled={disabled}>
+        <Grid item>
+          <TextField
+            label="Results"
+            name="resultCount"
+            value={resultCount}
+            onChange={e => {
+              let input = e.target.value;
+              if(/^\d{0,3}$/.test(input)) onResultCountUpdate(input);
+            }}
+            onBlur = {restoreCount}
+            onKeyPress = { (e) => {
+              if(e.key === 'Enter') {
+                if(parseInt(resultCount, 10) === 0 || resultCount === '') restoreCount();
+                else forceUpdate();
+              }
+            }}
+          />
+        </Grid>
+        <Grid item>
+          <FormControl component="fieldset">
+            <FormLabel id="engine_legend" component="legend">Search Engine</FormLabel>
+            <RadioGroup
+              name="engine"
+              value={engine}
+              onChange={e => onEngineUpdate(e.target.value)}
+              aria-labelledby="engine_legend"
+            >
+              <FormControlLabel value="Style" control={<Radio/>} label="Style"/>
+              <FormControlLabel value="Semantic" control={<Radio/>} label="Semantic"/>
+            </RadioGroup>
+          </FormControl>
+        </Grid>
+      </fieldset>
     </Grid>
   );
 }
