@@ -99,6 +99,17 @@ export default function Album() {
     setInputCards(newCards);
   }
 
+  const updateURLInputs = (urls) => {
+    let newCards = [];
+    for(let url of urls) {
+      newCards.push({
+        key: newCards.length,
+        url: url,
+      });
+    }
+    setInputCards(newCards);
+  }
+
   const updateAssetInput = (card) => {
     let inputCard = Object.assign({}, card);
     delete inputCard.distance;
@@ -117,6 +128,7 @@ export default function Album() {
               <Grid item xs>
                 <InputZone
                   onFileDrop={(f) => updateFileInputs(f)}
+                  onURLDrop={(u) => updateURLInputs(u)}
                   onAssetDrop={(a) => updateAssetInput(a)}
                   inputCards = {inputCards}
                 />
@@ -151,9 +163,9 @@ export default function Album() {
 
 }
 
-function InputZone({onFileDrop, onAssetDrop, inputCards}) {
+function InputZone({onFileDrop, onURLDrop, onAssetDrop, inputCards}) {
   const [, drop] = useDrop({
-    accept: [NativeTypes.FILE, 'CARD'],
+    accept: [NativeTypes.FILE, NativeTypes.URL, 'CARD'],
     drop: (item, monitor) => {
       if(monitor.getItemType() === NativeTypes.FILE) {
         let files = monitor.getItem().files;
@@ -161,6 +173,16 @@ function InputZone({onFileDrop, onAssetDrop, inputCards}) {
           if(file.type !== 'image/jpeg' && file.type !== 'image/png') return;
         }
         onFileDrop(files);
+      }
+      else if(monitor.getItemType() === NativeTypes.URL) {
+        let urls = monitor.getItem().urls;
+        for(let url of urls) {
+          let ext = url.substring(url.lastIndexOf('.') + 1);
+          if(ext !== "jpg" &&
+             ext !== "jpeg" &&
+             ext !== "png") return;
+        }
+        onURLDrop(urls);
       }
       else onAssetDrop(item.card);
     },
