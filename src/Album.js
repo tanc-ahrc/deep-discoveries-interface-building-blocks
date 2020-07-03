@@ -157,6 +157,7 @@ function InputZone({onChange, inputCards, setInputCards}) {
       }
       else {
         let inputCard = Object.assign({}, item.card);
+        delete inputCard.distance;
         inputCard.key = 0;
         setInputCards([inputCard]);
       }
@@ -266,6 +267,11 @@ function ImageCard({card}) {
    },
   });
 
+  let t_id = null;
+  if(card.aid) t_id = <Typography variant="caption">Asset ID: {card.aid}{card.distance ? <br/> : null}</Typography>
+  let t_distance = null;
+  if(card.distance) t_distance = <Typography variant="caption">Distance: {card.distance}</Typography>
+
   return(
     <Card ref={drag} className={classes.card}>
       <a href={card.url}>
@@ -277,10 +283,7 @@ function ImageCard({card}) {
       </a>
       <Watermark collection={card.collection}/>
       <CardContent className={classes.cardContent}>
-        <Typography variant="caption">
-          Asset ID: {card.aid}<br/>
-          Distance: {card.distance}
-        </Typography>
+        {t_id}{t_distance}
       </CardContent>
     </Card>
   );
