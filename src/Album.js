@@ -7,7 +7,6 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import {DropzoneArea} from 'material-ui-dropzone';
 import TextField from '@material-ui/core/TextField';
 import {useState} from 'react';
 import {useEffect} from 'react';
@@ -18,7 +17,7 @@ import FormControl from '@material-ui/core/FormControl';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Tooltip from '@material-ui/core/Tooltip';
 import { useDrop, useDrag, DndProvider } from "react-dnd";
-import { HTML5Backend } from "react-dnd-html5-backend";
+import { NativeTypes, HTML5Backend } from "react-dnd-html5-backend";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -83,12 +82,19 @@ export default function Album() {
 
   useEffect(getSimilar, [inputCards, engine]);
 
-  const handleChange = (files) => {
+  const handleChange = async (files) => {
     let newCards = [];
     for(let file of files) {
-      newCards.push({
+      let newCard = {
+        key: newCards.length,
         file: file,
+      };
+      newCard.url = await new Promise((resolve) => {
+        const reader = new FileReader();
+        reader.onload = (e) => { resolve(e.target.result); };
+        reader.readAsDataURL(file);
       });
+      newCards.push(newCard);
     }
     setInputCards(newCards);
   }
@@ -102,7 +108,7 @@ export default function Album() {
           <div className={classes.heroContent}>
             <Grid container spacing={3} justify="space-between">
               <Grid item xs>
-                <DropZone
+                <InputZone
                   onChange={(f) => handleChange(f)}
                   inputCards = {inputCards}
                   setInputCards = {setInputCards}
@@ -138,26 +144,43 @@ export default function Album() {
 
 }
 
-function DropZone({onChange, inputCards, setInputCards}) {
+function InputZone({onChange, inputCards, setInputCards}) {
   const [, drop] = useDrop({
-    accept: ['CARD'],
-    drop: (item) => { setInputCards([item.card]); },
+    accept: [NativeTypes.FILE, 'CARD'],
+    drop: (item, monitor) => {
+      if(monitor.getItemType() === NativeTypes.FILE) {
+        let files = monitor.getItem().files;
+        for(let file of files) {
+          if(file.type !== 'image/jpeg' && file.type !== 'image/png') return;
+        }
+        onChange(files);
+      }
+      else {
+        let inputCard = Object.assign({}, item.card);
+        inputCard.key = 0;
+        setInputCards([inputCard]);
+      }
+    },
   });
   return(
     <div ref={drop}>
-      <DropzoneArea
-        acceptedFiles={['image/jpeg', 'image/png']}
-        filesLimit = {9}
-        onChange={onChange}
-        fileObjects = {inputCards}
-        showAlerts={['error']}
-        maxFileSize={1024*1024*10}
-      />
+      <Grid container spacing={4}>
+        {inputCards.map((card) => (
+          <Grid item key={card.key} xs={6} sm={6} md={3}>
+            <ImageCard card={card}/>
+          </Grid>
+        ))}
+        <Grid item key={-1} xs={6} sm={6} md={3}>
+          <ImageCard card={{url:'//:0'}}/>
+        </Grid>
+      </Grid>
     </div>
   );
 }
 
 function getCollectionName(collection) {
+  if(collection == null) return null; /* matches on undefined or null */
+
   if(collection.slice(0,3) === "TNA") return "The National Archives";
   else if(collection === "RGBE") return "Royal Botanic Garden Edinburgh";
   else return collection;
@@ -166,6 +189,7 @@ function getCollectionName(collection) {
 function Watermark({collection}) {
   const classes = useStyles();
   let alt = getCollectionName(collection);
+  if(alt == null) return null; /* matches on undefined or null */
   let logo;
   if(collection.slice(0,3) === "TNA") logo = "tna.png";
   else if(collection === "RGBE") logo = "rgbe.jpeg";
