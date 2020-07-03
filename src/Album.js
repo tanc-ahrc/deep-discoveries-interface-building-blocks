@@ -99,6 +99,13 @@ export default function Album() {
     setInputCards(newCards);
   }
 
+  const updateAssetInput = (card) => {
+    let inputCard = Object.assign({}, card);
+    delete inputCard.distance;
+    inputCard.key = 0;
+    setInputCards([inputCard]);
+  }
+
   return (
     <React.Fragment>
       <CssBaseline />
@@ -110,8 +117,8 @@ export default function Album() {
               <Grid item xs>
                 <InputZone
                   onFileDrop={(f) => updateFileInputs(f)}
+                  onAssetDrop={(a) => updateAssetInput(a)}
                   inputCards = {inputCards}
-                  setInputCards = {setInputCards}
                 />
               </Grid>
               <Grid item xs={3}>
@@ -144,7 +151,7 @@ export default function Album() {
 
 }
 
-function InputZone({onFileDrop, inputCards, setInputCards}) {
+function InputZone({onFileDrop, onAssetDrop, inputCards}) {
   const [, drop] = useDrop({
     accept: [NativeTypes.FILE, 'CARD'],
     drop: (item, monitor) => {
@@ -155,12 +162,7 @@ function InputZone({onFileDrop, inputCards, setInputCards}) {
         }
         onFileDrop(files);
       }
-      else {
-        let inputCard = Object.assign({}, item.card);
-        delete inputCard.distance;
-        inputCard.key = 0;
-        setInputCards([inputCard]);
-      }
+      else onAssetDrop(item.card);
     },
   });
   return(
