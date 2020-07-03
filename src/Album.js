@@ -82,7 +82,7 @@ export default function Album() {
 
   useEffect(getSimilar, [inputCards, engine]);
 
-  const handleChange = async (files) => {
+  const updateFileInputs = async (files) => {
     let newCards = [];
     for(let file of files) {
       let newCard = {
@@ -109,7 +109,7 @@ export default function Album() {
             <Grid container spacing={3} justify="space-between">
               <Grid item xs>
                 <InputZone
-                  onChange={(f) => handleChange(f)}
+                  onFileDrop={(f) => updateFileInputs(f)}
                   inputCards = {inputCards}
                   setInputCards = {setInputCards}
                 />
@@ -144,7 +144,7 @@ export default function Album() {
 
 }
 
-function InputZone({onChange, inputCards, setInputCards}) {
+function InputZone({onFileDrop, inputCards, setInputCards}) {
   const [, drop] = useDrop({
     accept: [NativeTypes.FILE, 'CARD'],
     drop: (item, monitor) => {
@@ -153,7 +153,7 @@ function InputZone({onChange, inputCards, setInputCards}) {
         for(let file of files) {
           if(file.type !== 'image/jpeg' && file.type !== 'image/png') return;
         }
-        onChange(files);
+        onFileDrop(files);
       }
       else {
         let inputCard = Object.assign({}, item.card);
