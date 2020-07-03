@@ -149,6 +149,7 @@ export default function Album() {
                   onURLDrop={(u) => updateURLInputs(u)}
                   onAssetDrop={(a) => updateAssetInput(a)}
                   inputCards = {inputCards}
+                  showDropCard = {inputCards.length === 0 || multiInput}
                   disabled = {fetching}
                 />
               </Grid>
@@ -186,7 +187,7 @@ export default function Album() {
 
 }
 
-function InputZone({onFileDrop, onURLDrop, onAssetDrop, inputCards, disabled}) {
+function InputZone({onFileDrop, onURLDrop, onAssetDrop, inputCards, showDropCard, disabled}) {
   const [, drop] = useDrop({
     accept: [NativeTypes.FILE, NativeTypes.URL, 'CARD'],
     drop: (item, monitor) => {
@@ -210,6 +211,14 @@ function InputZone({onFileDrop, onURLDrop, onAssetDrop, inputCards, disabled}) {
       else onAssetDrop(item.card);
     },
   });
+
+  let dropCard = null;
+  if(showDropCard) {
+    dropCard = <Grid item key={-1} xs={6} sm={6} md={3}>
+                 <ImageCard card={{url:'//:0'}}/>
+               </Grid>;
+  }
+
   return(
     <div ref={disabled ? null : drop}>
       <Grid container spacing={4}>
@@ -218,9 +227,7 @@ function InputZone({onFileDrop, onURLDrop, onAssetDrop, inputCards, disabled}) {
             <ImageCard card={card}/>
           </Grid>
         ))}
-        <Grid item key={-1} xs={6} sm={6} md={3}>
-          <ImageCard card={{url:'//:0'}}/>
-        </Grid>
+        {dropCard}
       </Grid>
     </div>
   );
