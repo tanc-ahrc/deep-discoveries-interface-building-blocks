@@ -104,6 +104,7 @@ export default function Album() {
       let newCard = {
         key: newCards.length,
         file: file,
+        title: file.name,
       };
       newCard.url = await new Promise((resolve) => {
         const reader = new FileReader();
@@ -121,6 +122,7 @@ export default function Album() {
       newCards.push({
         key: newCards.length,
         url: url,
+        title: url.substring(url.lastIndexOf('/') + 1),
       });
     }
     setInputCards(newCards);
@@ -341,6 +343,8 @@ function ImageCard({card}) {
   if(card.aid) t_id = <Typography variant="caption">Asset ID: {card.aid}{card.distance ? <br/> : null}</Typography>
   let t_distance = null;
   if(card.distance) t_distance = <Typography variant="caption">Distance: {card.distance}</Typography>
+  let t_title = null;
+  if(card.title) t_title = <Typography variant="caption">{card.title}</Typography>
 
   return(
     <Card ref={drag} className={classes.card}>
@@ -353,7 +357,7 @@ function ImageCard({card}) {
       </a>
       <Watermark collection={card.collection}/>
       <CardContent className={classes.cardContent}>
-        {t_id}{t_distance}
+        {t_id}{t_distance}{t_title}
       </CardContent>
     </Card>
   );
