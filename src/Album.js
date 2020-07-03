@@ -19,6 +19,9 @@ import Tooltip from '@material-ui/core/Tooltip';
 import { useDrop, useDrag, DndProvider } from "react-dnd";
 import { NativeTypes, HTML5Backend } from "react-dnd-html5-backend";
 import CircularProgress from '@material-ui/core/CircularProgress';
+import Checkbox from '@material-ui/core/Checkbox';
+import FormGroup from '@material-ui/core/FormGroup';
+import Button from '@material-ui/core/Button';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -58,6 +61,7 @@ export default function Album() {
   const [resultCount, setResultCount] = useState(8);
   const [oldResultCount, setOldResultCount] = useState(resultCount);
   const [inputCards, setInputCards] = useState([]);
+  const [multiInput, setMultiInput] = useState(false);
   const [fetching, setFetching] = useState(false);
 
 
@@ -85,10 +89,17 @@ export default function Album() {
     xhr.send(formData);
   }
 
-  useEffect(getSimilar, [inputCards, engine]);
+  const getSimilarEffect = () => { if(!multiInput) getSimilar(); }
+
+  const changeInputMode = () => {
+    if(!multiInput) setInputCards([]);
+  }
+
+  useEffect(getSimilarEffect, [inputCards, engine]);
+  useEffect(changeInputMode, [multiInput]);
 
   const updateFileInputs = async (files) => {
-    let newCards = [];
+    let newCards = multiInput ? inputCards.slice() : [];
     for(let file of files) {
       let newCard = {
         key: newCards.length,
@@ -105,7 +116,7 @@ export default function Album() {
   }
 
   const updateURLInputs = (urls) => {
-    let newCards = [];
+    let newCards = multiInput ? inputCards.slice() : [];
     for(let url of urls) {
       newCards.push({
         key: newCards.length,
@@ -116,10 +127,12 @@ export default function Album() {
   }
 
   const updateAssetInput = (card) => {
+    let newCards = multiInput ? inputCards.slice() : [];
     let inputCard = Object.assign({}, card);
     delete inputCard.distance;
-    inputCard.key = 0;
-    setInputCards([inputCard]);
+    inputCard.key = newCards.length;
+    newCards.push(inputCard);
+    setInputCards(newCards);
   }
 
   return (
@@ -148,6 +161,8 @@ export default function Album() {
                   engine   = {engine}
                   onEngineUpdate = {setEngine}
                   forceUpdate = {getSimilar}
+                  multiInput = {multiInput}
+                  setMultiInput = {setMultiInput}
                   disabled = {fetching}
                 />
               </Grid>
@@ -245,7 +260,7 @@ function Watermark({collection}) {
   );
 }
 
-function Form({resultCount, onResultCountUpdate, restoreCount, engine, onEngineUpdate, forceUpdate, disabled}) {
+function Form({resultCount, onResultCountUpdate, restoreCount, engine, onEngineUpdate, forceUpdate, multiInput, setMultiInput, disabled}) {
   return(
     <Grid
       container
@@ -285,6 +300,20 @@ function Form({resultCount, onResultCountUpdate, restoreCount, engine, onEngineU
               <FormControlLabel value="Semantic" control={<Radio/>} label="Semantic"/>
             </RadioGroup>
           </FormControl>
+        </Grid>
+        <Grid item>
+          <FormGroup row>
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={multiInput}
+                onChange={e => setMultiInput(e.target.checked)}
+              />
+            }
+            label="Multiple Inputs"
+          />
+          <Button variant="contained" disabled={!multiInput} onClick={forceUpdate}>Submit</Button>
+          </FormGroup>
         </Grid>
       </fieldset>
     </Grid>
