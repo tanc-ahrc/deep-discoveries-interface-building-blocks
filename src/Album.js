@@ -82,7 +82,8 @@ export default function Album() {
     let xhr = new XMLHttpRequest();
     xhr.open('POST', endpoint, true);
     xhr.onload = function() {
-      setCards(JSON.parse(this.responseText));
+      const f = (c) => { return c.collection != null && c.collection !== getCollectionName(c.collection); };
+      setCards(JSON.parse(this.responseText).filter(f)); /* Only display images from named collections */
       setFetching(false);
     };
     setFetching(true);
