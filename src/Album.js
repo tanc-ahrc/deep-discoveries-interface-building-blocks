@@ -248,8 +248,8 @@ function Watermark({collection}) {
   let alt = getCollectionName(collection);
   if(alt == null) return null; /* matches on undefined or null */
   let logo;
-  if(collection.slice(0,3) === "TNA") logo = "tna.png";
-  else if(collection === "RGBE") logo = "rgbe.jpeg";
+  if(collection.slice(0,3) === "TNA") logo = "https://www.nationalarchives.gov.uk/favicon.ico";
+  else if(collection === "RGBE") logo = "https://www.rbge.org.uk/favicon.ico";
   else return(
     <Typography variant="caption">
       {collection}
