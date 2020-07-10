@@ -1,3 +1,8 @@
+/* Original content of this file copyright (c) 2014 Call-Em-All, MIT license
+ * All changes copyright (c) 2020 Crown Copyright (The National Archives), MIT license
+ * For MIT license, see https://github.com/tanc-ahrc/deep-discoveries-interface-building-blocks/blob/master/LICENSE.
+ */
+
 import React from 'react';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
