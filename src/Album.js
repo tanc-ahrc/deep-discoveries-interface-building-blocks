@@ -244,9 +244,9 @@ function InputZone({onFileDrop, onURLDrop, onAssetDrop, inputCards, showDropCard
 function getCollectionInfo(collection) {
   if(collection == null) return null; /* matches on undefined or null */
 
-  if(collection.slice(0,3) === "TNA")  return {id: collection, name: "The National Archives",          logo: "https://www.nationalarchives.gov.uk/favicon.ico" }
-  else if(collection       === "RGBE") return {id: collection, name: "Royal Botanic Garden Edinburgh", logo: "https://www.rbge.org.uk/favicon.ico" }
-  else                                 return {id: collection, name: null,                             logo: null }
+  if(collection                 === "RGBE") return {id: collection, name: "Royal Botanic Garden Edinburgh", logo: "https://www.rbge.org.uk/favicon.ico" }
+  else if(collection.slice(0,3) === "TNA")  return {id: collection, name: "The National Archives",          logo: "https://www.nationalarchives.gov.uk/favicon.ico" }
+  else                                      return {id: collection, name: null,                             logo: null }
 }
 
 function Watermark({collection}) {
