@@ -46,6 +46,7 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     flexDirection: 'column',
     position: 'relative',
+    borderWidth: '0.5em'
   },
   cardMedia: {
     paddingTop: '100%'
@@ -244,32 +245,9 @@ function InputZone({onFileDrop, onURLDrop, onAssetDrop, inputCards, showDropCard
 function getCollectionInfo(collection) {
   if(collection == null) return null; /* matches on undefined or null */
 
-  if(collection                 === "RGBE") return {id: collection, name: "Royal Botanic Garden Edinburgh", logo: "https://www.rbge.org.uk/favicon.ico" }
-  else if(collection.slice(0,3) === "TNA")  return {id: collection, name: "The National Archives",          logo: "https://www.nationalarchives.gov.uk/favicon.ico" }
-  else                                      return {id: collection, name: null,                             logo: null }
-}
-
-function Watermark({collection}) {
-  const classes = useStyles();
-  const info = getCollectionInfo(collection);
-  if(info == null) return null; /* matches on undefined or null */
-  if(info.name == null) return (
-      <Typography variant="caption">
-        {info.id}
-      </Typography>
-  );
-
-  return(
-    <div className={classes.cardOverlay} style={{right:0, bottom:0}}>
-      <Tooltip title={info.name}>
-        <img
-          style={{width:40 + 'px'}}
-          src={info.logo}
-          alt={info.name}
-        />
-      </Tooltip>
-    </div>
-  );
+  if(collection                 === "RGBE") return {id: collection, name: "Royal Botanic Garden Edinburgh", color: "darkgreen"  }
+  else if(collection.slice(0,3) === "TNA")  return {id: collection, name: "The National Archives",          color: "silver"     }
+  else                                      return {id: collection, name: null,                             color: "whitesmoke" }
 }
 
 function Form({resultCount, onResultCountUpdate, restoreCount, engine, onEngineUpdate, forceUpdate, multiInput, setMultiInput, disabled}) {
@@ -342,6 +320,15 @@ function ImageCard({card}) {
    },
   });
 
+  let t_color = "Black"
+  let t_collection_name = "";
+  const ci = getCollectionInfo(card.collection);
+  if(ci !== null) {
+    t_color = ci.color;
+    if(ci.name == null) t_collection_name = ci.id;
+    else t_collection_name = ci.name;
+  }
+
   let t_id = null;
   if(card.aid) t_id = <Typography variant="caption">Asset ID: {card.aid}{card.distance ? <br/> : null}</Typography>
   let t_distance = null;
@@ -350,7 +337,7 @@ function ImageCard({card}) {
   if(card.title) t_title = <Typography variant="caption">{card.title}</Typography>
 
   return(
-    <Card ref={drag} className={classes.card}>
+    <Card ref={drag} className={classes.card} variant="outlined" style={{borderColor: t_color}}>
       <a href={card.url}>
         <CardMedia
           className={classes.cardMedia}
@@ -358,8 +345,11 @@ function ImageCard({card}) {
           title={card.title}
         />
       </a>
-      <Watermark collection={card.collection}/>
       <CardContent className={classes.cardContent}>
+        <Typography variant="caption">
+          <b>{t_collection_name}</b>
+        </Typography>
+        <br/>
         {t_id}{t_distance}{t_title}
       </CardContent>
     </Card>
