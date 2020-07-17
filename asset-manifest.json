@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/deep-discoveries-interface-building-blocks/static/css/main.d1b05096.chunk.css",
+    "main.js": "/deep-discoveries-interface-building-blocks/static/js/main.02b5e48e.chunk.js",
+    "main.js.map": "/deep-discoveries-interface-building-blocks/static/js/main.02b5e48e.chunk.js.map",
+    "runtime-main.js": "/deep-discoveries-interface-building-blocks/static/js/runtime-main.a7fd9788.js",
+    "runtime-main.js.map": "/deep-discoveries-interface-building-blocks/static/js/runtime-main.a7fd9788.js.map",
+    "static/js/2.926e0527.chunk.js": "/deep-discoveries-interface-building-blocks/static/js/2.926e0527.chunk.js",
+    "static/js/2.926e0527.chunk.js.map": "/deep-discoveries-interface-building-blocks/static/js/2.926e0527.chunk.js.map",
+    "index.html": "/deep-discoveries-interface-building-blocks/index.html",
+    "precache-manifest.643621b023d43b8302e07cd66782acbb.js": "/deep-discoveries-interface-building-blocks/precache-manifest.643621b023d43b8302e07cd66782acbb.js",
+    "service-worker.js": "/deep-discoveries-interface-building-blocks/service-worker.js",
+    "static/css/main.d1b05096.chunk.css.map": "/deep-discoveries-interface-building-blocks/static/css/main.d1b05096.chunk.css.map",
+    "static/js/2.926e0527.chunk.js.LICENSE.txt": "/deep-discoveries-interface-building-blocks/static/js/2.926e0527.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.a7fd9788.js",
+    "static/js/2.926e0527.chunk.js",
+    "static/css/main.d1b05096.chunk.css",
+    "static/js/main.02b5e48e.chunk.js"
+  ]
+}
