@@ -245,9 +245,12 @@ function InputZone({onFileDrop, onURLDrop, onAssetDrop, inputCards, showDropCard
 function getCollectionInfo(collection) {
   if(collection == null) return null; /* matches on undefined or null */
 
-  if(collection                 === "RGBE") return {id: collection, name: "Royal Botanic Garden Edinburgh", color: "darkgreen"  }
-  else if(collection.slice(0,3) === "TNA")  return {id: collection, name: "The National Archives",          color: "silver"     }
-  else                                      return {id: collection, name: null,                             color: "whitesmoke" }
+  if(collection                 === "RGBE") return {id: collection, name: "Royal Botanic Garden Edinburgh",                color: "darkgreen"  }
+  else if(collection            === "MODA") return {id: collection, name: "The Museum of Domestic Design and Architeture", color: "blue"       }
+  else if(collection.slice(0,3) === "TNA")  return {id: collection, name: "The National Archives",                         color: "gray"       }
+  else if(collection.slice(0,2) === "VA")   return {id: collection, name: "Victoria & Albert Museum",                      color: "red"        }
+  else                                      return {id: collection, name: null,                                            color: "whitesmoke" }
+
 }
 
 function Form({resultCount, onResultCountUpdate, restoreCount, engine, onEngineUpdate, forceUpdate, multiInput, setMultiInput, disabled}) {
