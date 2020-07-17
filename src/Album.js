@@ -87,7 +87,7 @@ export default function Album() {
     let xhr = new XMLHttpRequest();
     xhr.open('POST', endpoint, true);
     xhr.onload = function() {
-      const f = (c) => { return c.collection != null && c.collection !== getCollectionName(c.collection); };
+      const f = (c) => { return c.collection != null && getCollectionInfo(c.collection).name != null; };
       setCards(JSON.parse(this.responseText).filter(f)); /* Only display images from named collections */
       setFetching(false);
     };
@@ -241,34 +241,31 @@ function InputZone({onFileDrop, onURLDrop, onAssetDrop, inputCards, showDropCard
   );
 }
 
-function getCollectionName(collection) {
+function getCollectionInfo(collection) {
   if(collection == null) return null; /* matches on undefined or null */
 
-  if(collection.slice(0,3) === "TNA") return "The National Archives";
-  else if(collection === "RGBE") return "Royal Botanic Garden Edinburgh";
-  else return collection;
+  if(collection.slice(0,3) === "TNA")  return {id: collection, name: "The National Archives",          logo: "https://www.nationalarchives.gov.uk/favicon.ico" }
+  else if(collection       === "RGBE") return {id: collection, name: "Royal Botanic Garden Edinburgh", logo: "https://www.rbge.org.uk/favicon.ico" }
+  else                                 return {id: collection, name: null,                             logo: null }
 }
 
 function Watermark({collection}) {
   const classes = useStyles();
-  let alt = getCollectionName(collection);
-  if(alt == null) return null; /* matches on undefined or null */
-  let logo;
-  if(collection.slice(0,3) === "TNA") logo = "https://www.nationalarchives.gov.uk/favicon.ico";
-  else if(collection === "RGBE") logo = "https://www.rbge.org.uk/favicon.ico";
-  else return(
-    <Typography variant="caption">
-      {collection}
-    </Typography>
+  const info = getCollectionInfo(collection);
+  if(info == null) return null; /* matches on undefined or null */
+  if(info.name == null) return (
+      <Typography variant="caption">
+        {info.id}
+      </Typography>
   );
 
   return(
     <div className={classes.cardOverlay} style={{right:0, bottom:0}}>
-      <Tooltip title={alt}>
+      <Tooltip title={info.name}>
         <img
           style={{width:40 + 'px'}}
-          src={logo}
-          alt={alt}
+          src={info.logo}
+          alt={info.name}
         />
       </Tooltip>
     </div>
