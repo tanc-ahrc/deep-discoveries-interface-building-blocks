@@ -76,7 +76,7 @@ export default function Album() {
     setOldResultCount(resultCount);
     setCards([]);
     if(inputCards.length === 0) return;
-    let endpoint = 'https://blockchain.surrey.ac.uk/deepdiscovery/api/upload';
+    let endpoint = 'https://decade.ac.uk/deepdiscovery/api/upload';
     let formData = new FormData();
     for(let inputCard of inputCards) {
       if(inputCard.aid) formData.append('query_aid', inputCard.aid);
